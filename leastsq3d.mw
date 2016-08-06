@@ -19,7 +19,7 @@ eqs:=GenerateEquations(left,[c,d,e],right);print(eqs);
 sols:=solve(convert(eqs,set),{c,d,e});
 assign(sols);
 print(`Coefficients are`,`c=`,c,`d=`,d,`e=`,e);
-print(`Equation of Least Squares line is`,z=c+d*x+e*y);
+print(`Equation of Least Squares plane is`,z=c+d*x+e*y);
 err:=b - A.<c,d,e>;print(`Error b - Ax is`,err);
 print(`Compute error dot A and note that zero checks that`);
 print(`error b-Ax is perpendicular to the column space of A`);
