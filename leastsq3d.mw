@@ -1,0 +1,31 @@
+restart:
+with(LinearAlgebra):with(plots):
+leastsq:=proc(L,r,s)
+local leng,A,b,i,c,d,sols,left,eqs,right,p1,p2,err;
+print(`Points are`,L);
+leng:=nops(L);
+A:=Matrix(1..leng,1..3);
+b:=Vector(leng);
+for i from 1 to leng do
+    A[i,1]:= 1;
+    A[i,2]:= L[i][1];
+    A[i,3]:= L[i][2];
+    b[i]:= L[i][3];
+od:
+print(A);print(b);print(Transpose(A));
+left:=Transpose(A).A;print(left);
+right:=Transpose(A).b;print(right);
+eqs:=GenerateEquations(left,[c,d,e],right);print(eqs);
+sols:=solve(convert(eqs,set),{c,d,e});
+assign(sols);
+print(`Coefficients are`,`c=`,c,`d=`,d,`e=`,e);
+print(`Equation of Least Squares line is`,z=c+d*x+e*y);
+err:=b - A.<c,d,e>;print(`Error b - Ax is`,err);
+print(`Compute error dot A and note that zero checks that`);
+print(`error b-Ax is perpendicular to the column space of A`);
+print(``);
+print(`error dot A is`,Transpose(err).A);
+p1:=pointplot3d(L,color=orange,symbol=solidcircle,symbolsize=14):
+p2:=plot3d(c + d*t + e*u,t=r..s,u=r...s,color=blue):
+display({p1,p2});end:
+leastsq([[0,1,0],[1,2,8],[3,3,8],[4,4,20]],-1,5,5);
