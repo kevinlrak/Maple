@@ -41,5 +41,15 @@ print(`Compute error dot A and note that zero checks that`);
 print(`error b-Ax is perpendicular to the column space of A`);
 print(``);
 print(`error dot A is`,Transpose(err).A);
+if dim = 2 then
+    p1:=pointplot(L,color=orange,symbol=solidcircle,symbolsize=14):
+    p2:=plot(rhs(sols[1]) + rhs(sols[2])*t,t=r..s,color=blue):
+    display({p1,p2});
+elif dim = 3 then
+    p1:=pointplot3d(L,color=orange,symbol=solidcircle,symbolsize=14):
+    p2:=plot3d(rhs(sols[1]) + rhs(sols[2])*t + rhs(sols[3])*u,t=r..s,u=r...s,color=blue,axes=boxed):
+    display({p1,p2});
+end if:
 end:
 leastsq([[0,1,0],[1,2,8],[3,3,8],[4,4,20]],-1,5,5);
+leastsq([[0,0],[1,8],[3,8],[4,20]],-1,5);
