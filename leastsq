@@ -1,0 +1,32 @@
+with(LinearAlgebra):with(plots):
+leastsq:=proc(L,r,s)
+local dim,leng,A,b,i,k,c,d,sols,left,eqs,right,p1,p2,err;
+print(`Points are`,L);
+leng:=nops(L);
+dim:=nops(L[1]);
+A:=Matrix(1..leng,1..dim);
+b:=Vector(leng);
+for i from 1 to leng do
+    A[i,1]:= 1;
+    for k from 1 to (dim - 1) do
+        A[i,k]:=L[i][k];
+    od:
+    b[i]:= L[i][dim];
+od:
+print(A);print(b);print(Transpose(A));
+left:=Transpose(A).A;print(left);
+right:=Transpose(A).b;print(right);
+/*====== Work In Progress ======*/
+eqs:=GenerateEquations(left,[c,d,e],right);print(eqs);
+sols:=solve(convert(eqs,set),{c,d,e});
+assign(sols);
+print(`Coefficients are`,`c=`,c,`d=`,d,`e=`,e);
+print(`Equation of Least Squares line is`,z=c+d*x+e*y);
+err:=b - A.<c,d,e>;print(`Error b - Ax is`,err);
+print(`Compute error dot A and note that zero checks that`);
+print(`error b-Ax is perpendicular to the column space of A`);
+print(``);
+print(`error dot A is`,Transpose(err).A);
+end:
+leastsq([[0,1,0],[1,2,8],[3,3,8],[4,4,20]],-1,5,5);
+leastsq([[0, 0], [1, 8], [3, 8], [4, 20]], -1, 5);
