@@ -1,7 +1,7 @@
 restart:
 with(LinearAlgebra):with(plots):
 leastsq:=proc(L,r,s)
-local dim,leng,A,b,i,j,k,m,c,d,listVars,setVars,sols,left,eqs,lseqn,right,p1,p2,err;
+local dim,leng,A,b,i,j,k,m,n,listVars,vectorVars,sols,left,eqs,lseqn,graphic,right,p1,p2,err;
 print(`Points are`,L);
 leng:=nops(L);
 dim:=nops(L[1]);
@@ -30,9 +30,13 @@ lseqn:=V=rhs(sols[1]):
 for m from 2 to dim do
     lseqn:=V=rhs(lseqn)+rhs(sols[m])*v[m-1]:
 od:
-print(`Equation of Least Squares line is `,lseqn);
-/*====== Work In Progress ======*/
-err:=b - A.convert(listVars,vector);print(`Error b - Ax is`,err);
+if dim = 2 then graphic:=`line` elif dim = 3 then graphic:=`plane` else graphic:=`hyper-plane`; end if;
+print(cat(`Equation of Least Squares `, graphic, ` is`), lseqn);
+vectorVars:=Vector(dim);
+for n from 1 to dim do
+    vectorVars[n]:=rhs(sols[n]):
+od:
+err:=b - A.vectorVars;print(`Error b - Ax is`,err);
 print(`Compute error dot A and note that zero checks that`);
 print(`error b-Ax is perpendicular to the column space of A`);
 print(``);
