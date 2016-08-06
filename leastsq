@@ -1,7 +1,7 @@
 restart:
 with(LinearAlgebra):with(plots):
 leastsq:=proc(L,r,s)
-local dim,leng,A,b,i,j,k,l,c,d,listVars,setVars,sols,left,eqs,right,p1,p2,err;
+local dim,leng,A,b,i,j,k,m,c,d,listVars,setVars,sols,left,eqs,lseqn,right,p1,p2,err;
 print(`Points are`,L);
 leng:=nops(L);
 dim:=nops(L[1]);
@@ -19,14 +19,19 @@ left:=Transpose(A).A;print(left);
 right:=Transpose(A).b;print(right);
 listVars:=[];
 for k from 1 to dim do
-    listVars:=[op(listVars),cat(`v`,k)];
+    listVars:=[op(listVars),c[k]];
 od:
 eqs:=GenerateEquations(left,listVars,right);print(eqs);
 sols:=solve(convert(eqs,set),listVars);
 assign(sols);
-print(`Coefficients are`,op(op(sols)));
+sols:=op(sols);
+print(`Coefficients are`,op(sols));
+lseqn:=V=rhs(sols[1]):
+for m from 2 to dim do
+    lseqn:=V=rhs(lseqn)+rhs(sols[m])*v[m-1]:
+od:
+print(`Equation of Least Squares line is `,lseqn);
 /*====== Work In Progress ======*/
-print(`Equation of Least Squares line is`,z=c+d*x+e*y);
 err:=b - A.convert(listVars,vector);print(`Error b - Ax is`,err);
 print(`Compute error dot A and note that zero checks that`);
 print(`error b-Ax is perpendicular to the column space of A`);
