@@ -24,18 +24,17 @@ od:
 eqs:=GenerateEquations(left,listVars,right);print(eqs);
 sols:=solve(convert(eqs,set),listVars);
 assign(sols);
-sols:=op(sols);
-print(`Coefficients are`,op(sols));
-vectorVars:=Vector(dim);
-for n from 1 to dim do
-    vectorVars[n]:=rhs(sols[n]):
-od:
-lseqn:=V=vectorVars[1]:
+print(`Coefficients are`,op(op(sols)));
+lseqn:=V=c[1]:
 for m from 2 to dim do
-    lseqn:=V=rhs(lseqn)+vectorVars[m]*v[m-1]:
+    lseqn:=V=rhs(lseqn)+c[m]*v[m-1]:
 od:
 if dim = 2 then graphic:=`line` elif dim = 3 then graphic:=`plane` else graphic:=`hyper-plane`; end if;
 print(cat(`Equation of Least Squares `, graphic, ` is`), lseqn);
+vectorVars:=Vector(dim);
+for n from 1 to dim do
+    vectorVars[n]:=c[n]:
+od:
 err:=b - A.vectorVars;print(`Error b - Ax is`,err);
 print(`Compute error dot A and note that zero checks that`);
 print(`error b-Ax is perpendicular to the column space of A`);
@@ -43,11 +42,11 @@ print(``);
 print(`error dot A is`,Transpose(err).A);
 if dim = 2 then
     p1:=pointplot(L,color=orange,symbol=solidcircle,symbolsize=14):
-    p2:=plot(rhs(sols[1]) + rhs(sols[2])*t,t=r..s,color=blue):
+    p2:=plot(c[1] + c[2]*t,t=r..s,color=blue):
     display({p1,p2});
 elif dim = 3 then
     p1:=pointplot3d(L,color=orange,symbol=solidcircle,symbolsize=14):
-    p2:=plot3d(rhs(sols[1]) + rhs(sols[2])*t + rhs(sols[3])*u,t=r..s,u=r...s,color=blue,axes=boxed):
+    p2:=plot3d(c[1] + c[2]*t + c[3]*u,t=r..s,u=r...s,color=blue,axes=boxed):
     display({p1,p2});
 end if:
 end proc:
