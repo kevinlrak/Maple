@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Worksheet>
-<Version major="15" minor="0"/>
+<Version major="16" minor="0"/>
 <Label-Scheme value="2" prefix=""/>
 <View-Properties presentation="false"></View-Properties>
-<MapleNet-Properties elisiondigitsbefore="100" labelling="true" indentamount="4" elisiontermsthreshold="10000" ansi="false" errorbreak="1" useclientjvm="true" echo="1" imaginaryunit="I" labelwidth="20" contextmenusize="automatic" plotdriver="opengl" elisiondigitsafter="100" plotoutput="terminal" helpbrowser="standard" rtablesize="10" elisiontermsbefore="100" elisiondigitsthreshold="10000" typesetting="standard" plotdevice="inline" verboseproc="1" showassumed="1" errorcursor="false" longdelim="true" plotoptions="" quiet="false" elisiontermsafter="100" screenwidth="79" preplot="" prettyprint="3" displayprecision="-1" screenpixelheight="900" warnlevel="3" screenheight="25" latexwidth="6.0" postplot="" prompt="&gt; " ShowLabels="true"/>
+<MapleNet-Properties elisiondigitsbefore="100" labelling="true" indentamount="4" elisiontermsthreshold="10000" ansi="false" errorbreak="1" useclientjvm="true" echo="1" imaginaryunit="I" labelwidth="20" contextmenusize="automatic" plotdriver="opengl" elisiondigitsafter="100" plotoutput="terminal" helpbrowser="standard" rtablesize="10" elisiontermsbefore="100" elisiondigitsthreshold="10000" typesetting="standard" plotdevice="inline" verboseproc="1" showassumed="1" errorcursor="false" longdelim="true" plotoptions="" quiet="false" elisiontermsafter="100" screenwidth="79" preplot="" prettyprint="3" displayprecision="-1" screenpixelheight="1080" warnlevel="3" screenheight="25" latexwidth="6.0" postplot="" prompt="&gt; " ShowLabels="true"/>
 <Styles><Font name="Ordered List 1" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" placeholder="false"/>
 <Font name="Annotation Text" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" placeholder="false"/>
 <Font name="Ordered List 2" background="[255,255,255]" bold="false" executable="false" family="Times New Roman" foreground="[0,0,0]" italic="false" opaque="false" readonly="false" size="12" subscript="false" superscript="false" underline="false" placeholder="false"/>
@@ -118,18 +118,17 @@ od:
 eqs:=GenerateEquations(left,listVars,right);print(eqs);
 sols:=solve(convert(eqs,set),listVars);</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">assign(sols);
-sols:=op(sols);
-print(`Coefficients are`,op(sols));</Text-field>
-<Text-field prompt="&gt; " style="Maple Input" layout="Normal">vectorVars:=Vector(dim);
-for n from 1 to dim do
-    vectorVars[n]:=rhs(sols[n]):
-od:
-lseqn:=V=vectorVars[1]:
+print(`Coefficients are`,op(op(sols)));</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">lseqn:=V=c[1]:
 for m from 2 to dim do
-    lseqn:=V=rhs(lseqn)+vectorVars[m]*v[m-1]:
+    lseqn:=V=rhs(lseqn)+c[m]*v[m-1]:
 od:
 if dim = 2 then graphic:=`line` elif dim = 3 then graphic:=`plane` else graphic:=`hyper-plane`; end if;
 print(cat(`Equation of Least Squares `, graphic, ` is`), lseqn);</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">vectorVars:=Vector(dim);</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">for n from 1 to dim do</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">    vectorVars[n]:=c[n]:</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">od:</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">err:=b - A.vectorVars;print(`Error b - Ax is`,err);</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">print(`Compute error dot A and note that zero checks that`);</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">print(`error b-Ax is perpendicular to the column space of A`);</Text-field>
@@ -137,11 +136,11 @@ print(cat(`Equation of Least Squares `, graphic, ` is`), lseqn);</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">print(`error dot A is`,Transpose(err).A);
 if dim = 2 then</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p1:=pointplot(L,color=orange,symbol=solidcircle,symbolsize=14):</Text-field>
-<Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p2:=plot(rhs(sols[1]) + rhs(sols[2])*t,t=r..s,color=blue):</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p2:=plot(c[1] + c[2]*t,t=r..s,color=blue):</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">    display({p1,p2});</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">elif dim = 3 then</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p1:=pointplot3d(L,color=orange,symbol=solidcircle,symbolsize=14):</Text-field>
-<Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p2:=plot3d(rhs(sols[1]) + rhs(sols[2])*t + rhs(sols[3])*u,t=r..s,u=r...s,color=blue,axes=boxed):</Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal">    p2:=plot3d(c[1] + c[2]*t + c[3]*u,t=r..s,u=r...s,color=blue,axes=boxed):</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">    display({p1,p2});</Text-field>
 <Text-field prompt="&gt; " style="Maple Input" layout="Normal">end if:
 end proc:</Text-field>
@@ -159,7 +158,7 @@ end proc:</Text-field>
 </Group>
 <Group labelreference="L22" drawlabel="true">
 <Input>
-<Text-field prompt="&gt; " style="Maple Input" layout="Normal"><Equation executable="true" style="2D Input" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2JVEhRicvJSdpdGFsaWNHUSV0cnVlRicvJSxtYXRodmFyaWFudEdRJ2l0YWxpY0YnLyUrZXhlY3V0YWJsZUdRJmZhbHNlRicvRjNRJ25vcm1hbEYn">JSFH</Equation></Text-field>
+<Text-field prompt="&gt; " style="Maple Input" layout="Normal"><Equation executable="true" style="2D Input" input-equation="" display="LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYlLUkjbWlHRiQ2I1EhRicvJStleGVjdXRhYmxlR1EmZmFsc2VGJy8lLG1hdGh2YXJpYW50R1Enbm9ybWFsRic=">LUklbXJvd0c2Iy9JK21vZHVsZW5hbWVHNiJJLFR5cGVzZXR0aW5nR0koX3N5c2xpYkdGJzYjLUkjbWlHRiQ2I1EhRic=</Equation></Text-field>
 </Input>
 </Group>
 </Worksheet>
